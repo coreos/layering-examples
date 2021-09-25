@@ -1,0 +1,8 @@
+[Unit]
+Description=A hello world unit!
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/hello-world
+[Install]
+WantedBy=multi-user.target
