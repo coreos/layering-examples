@@ -10,6 +10,7 @@ FROM quay.io/cgwalters/fcos
 COPY --from=builder /build/hello-world /usr/bin
 # And add our unit file
 ADD hello-world.service /etc/systemd/system/hello-world.service
-# Also add strace; we don't yet support `yum install` but we can
-# with some work in rpm-ostree!
-RUN rpm -Uvh https://kojipkgs.fedoraproject.org//packages/strace/5.14/1.fc34/x86_64/strace-5.14-1.fc34.x86_64.rpm
+# Also add strace; rm -rf /var/cache currently is needed to avoid
+# errors in the output since the dnf cache is attemped to be copied.
+# We will address this issue in the future.
+RUN rpm-ostree install strace && rm -rf /var/cache 
