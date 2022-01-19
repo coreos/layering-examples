@@ -11,5 +11,6 @@ COPY --from=builder /build/hello-world /usr/bin
 # And add our unit file
 ADD hello-world.service /etc/systemd/system/hello-world.service
 # Also add irssi (my go-to example of strace is already in RHCOS)
-# With some future work, we can make `yum install` work
-RUN rpm -Uvh https://ftp.osuosl.org/pub/centos/8/AppStream/x86_64/os/Packages/irssi-1.1.1-3.el8.x86_64.rpm
+ADD RPM-GPG-KEY-centosofficial /etc/pki/rpm-gpg/
+ADD centos.repo /etc/yum.repos.d
+RUN rpm-ostree install irssi && rm -rf /var/cache 
