@@ -10,7 +10,7 @@ FROM quay.io/coreos-assembler/fcos:next-devel
 COPY --from=builder /build/hello-world /usr/bin
 # And add our unit file
 ADD hello-world.service /etc/systemd/system/hello-world.service
-# Also add strace; rm -rf /var/cache currently is needed to avoid
-# errors in the output since the dnf cache is attemped to be copied.
-# We will address this issue in the future.
-RUN rpm-ostree install strace && rm -rf /var/cache 
+# Also add strace; the `rm -rf /var/cache` is the equivalent of `yum clean all`.
+# For `ostree container finalize`, see https://github.com/ostreedev/ostree-rs-ext/issues/159
+RUN rpm-ostree install strace && rm -rf /var/cache && \
+  ostree container commit
