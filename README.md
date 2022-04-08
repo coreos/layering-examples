@@ -13,3 +13,4 @@ functionality.
 
 - [inject-go-binary](inject-go-binary/): Demos adding building and injecting a Go binary + systemd unit
 - [tailscale](tailscale/): Demos https://tailscale.com/download/linux/fedora
+- [butane](butane/): Demos using https://github.com/coreos/butane
