@@ -14,3 +14,16 @@ functionality.
 - [inject-go-binary](inject-go-binary/): Demos adding building and injecting a Go binary + systemd unit
 - [tailscale](tailscale/): Demos https://tailscale.com/download/linux/fedora
 - [butane](butane/): Demos using https://github.com/coreos/butane
+
+## Running an example
+
+- Build an image using an example from this repo and push it to an image registry:
+  ```
+  set IMAGE (podman build $EXAMPLE -q)
+  podman push $IMAGE quay.io/$USER/$EXAMPLE
+  ```
+
+- Setup a system that has `rpm-ostree` installed. One possibility is [using `virt-install`](https://docs.fedoraproject.org/en-US/fedora-coreos/getting-started/#_booting_on_a_local_hypervisor_libvirt_example).
+
+
+- [Rebase the system](https://coreos.github.io/rpm-ostree/container/#rebasing-a-client-system) with `rpm-ostree` to the image
