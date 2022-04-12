@@ -7,11 +7,12 @@ COPY . .
 RUN yum -y install go-toolset
 RUN go build hello-world.go
 
-FROM $RHEL_COREOS_IMAGE
-# Inject our binary into the OS
+FROM quay.io/coreos-assembler/fcos:next-devel
+# Inject it into the OS
 COPY --from=builder /build/hello-world /usr/bin
 # And add our unit file
 ADD hello-world.service /etc/systemd/system/hello-world.service
-# Enable UBI
-Add ubi.repo /etc/yum.repos.d
-RUN rpm-ostree install pixman && rm -rf /var/cache
+# Also add a package; the `rm -rf /var/cache` is the equivalent of `yum clean all`.
+# For `ostree container commit`, see https://github.com/ostreedev/ostree-rs-ext/issues/159
+RUN rpm-ostree install pixman && rm -rf /var/cache && \
+  ostree container commit
