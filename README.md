@@ -13,6 +13,7 @@ functionality.
 
 - [butane](butane/): Demos using https://github.com/coreos/butane
 - [wifi](wifi/): Install support for wireless networks along with pre-baked configuration to join a network
+- [selinux](selinux/): Demos changing a SELinux boolean
 - [inject-go-binary](inject-go-binary/): Demos adding building and injecting a Go binary + systemd unit
 - [tailscale](tailscale/): Demos https://tailscale.com/download/linux/fedora
 
