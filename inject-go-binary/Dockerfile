@@ -1,5 +1,3 @@
-ARG RHEL_COREOS_IMAGE=registry.ci.openshift.org/rhcos-devel/rhel-coreos:4.11
-
 # Build a small Go program
 FROM registry.access.redhat.com/ubi8/ubi:latest as builder
 WORKDIR /build
@@ -8,11 +6,11 @@ RUN yum -y install go-toolset
 RUN go build hello-world.go
 
 FROM quay.io/coreos-assembler/fcos:next-devel
-# Inject it into the OS
+# Inject it into Fedora CoreOS
 COPY --from=builder /build/hello-world /usr/bin
 # And add our unit file
 ADD hello-world.service /etc/systemd/system/hello-world.service
-# Also add a package; the `rm -rf /var/cache` is the equivalent of `yum clean all`.
+# Also add strace; the `rm -rf /var/cache` is the equivalent of `yum clean all`.
 # For `ostree container commit`, see https://github.com/ostreedev/ostree-rs-ext/issues/159
-RUN rpm-ostree install pixman && rm -rf /var/cache && \
+RUN rpm-ostree install strace && rm -rf /var/cache && \
   ostree container commit
