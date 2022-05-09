@@ -11,6 +11,7 @@ functionality.
 
 ## Examples
 
+- [ansible-firewalld](ansible-firewalld/): Demos using [Ansible](https://github.com/ansible/ansible) to configure [firewalld](https://github.com/firewalld/firewalld)
 - [butane](butane/): Demos using https://github.com/coreos/butane
 - [wifi](wifi/): Install support for wireless networks along with pre-baked configuration to join a network
 - [selinux](selinux/): Demos changing a SELinux boolean

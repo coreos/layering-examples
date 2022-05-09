@@ -1,0 +1,92 @@
+#This list of ports was taken from:
+#https://github.com/openshift/enhancements/blob/master/dev-guide/host-port-registry.md
+#These tasks are intended as an example.
+- hosts: localhost
+  tasks:
+    - name: Enable service firewalld
+      systemd:
+        name: firewalld
+        enabled: yes
+#The next two tasks can be veried by: `sudo firewall-cmd --list-all`
+    - name: Open tcp ports
+      firewalld:
+        offline: yes
+        port: "{{ item }}/tcp"
+        permanent: yes
+        state: enabled
+      loop:
+        - 80
+        - 443
+        - 1936
+        - 2041
+        - 2379
+        - 2380
+        - 3306
+        - 5050
+        - 6080
+        - 6180-6181
+        - 6183
+        - 6385
+        - 6443
+        - 8089
+        - 9001
+        - 9100-9103
+        - 9105-9106
+        - 9120-9122
+        - 9200-9219
+        - 9258
+        - 9444-9447
+        - 9537
+        - 9641-9644
+        - 9978-9979
+        - 10010
+        - 10250-10251
+        - 10255-10259
+        - 10263
+        - 10357
+        - 10443-10444
+        - 17697
+        - 22623-22624
+        - 60000
+
+    - name: Open udp ports
+      firewalld:
+        #Offline needed as these tasks will be running in
+        #a container build which does not have the service running.
+        offline: yes
+        port: "{{ item }}/udp"
+        permanent: yes
+        state: enabled
+      loop:
+        - 500
+        - 4500
+        - 4789
+        - 6081
+        - 9122
+
+#These next two tasks can be verified by: `sudo firewall-cmd --list-all --zone trusted`
+    - name: Add localhost to trusted zone
+      command: "firewall-offline-cmd --zone=trusted --add-interface=lo"
+
+    - name: Open tcp ports for localhost
+      firewalld:
+        zone: trusted
+        offline: yes
+        port: "{{ item }}/tcp"
+        permanent: yes
+        state: enabled
+      loop:
+        - 4180
+        - 8797
+        - 9259
+        - 9260
+        - 9443
+        - 9977
+        - 10248
+        - 10300-10303
+        - 11443
+        - 20000
+        - 29100-29103
+        - 29105
+        - 29150-29151
+        - 29445
