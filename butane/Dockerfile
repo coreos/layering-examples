@@ -1,5 +1,5 @@
 # TODO https://github.com/coreos/butane/pull/338
-FROM quay.io/cgwalters/butane as butane
+FROM quay.io/coreos/butane as butane
 # See the butane file for configuration changes
 ADD demo.bu /demo.bu
 # Compile to ignition
