@@ -1,0 +1,39 @@
+name: Generate RHCOS versions
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate-rhcos-versions:
+    name: generate rhcos versions
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: generate rhcos versions
+        run: ci/generate-rhcos-versions.py
+      - name: Create commit
+        run: |
+          git config user.name 'CoreOS Bot'
+          git config user.email coreosbot@fedoraproject.org
+          if ! git diff --quiet --exit-code; then
+              git commit -am "examples: generate rhcos versions ✨" \
+                  -m "Triggered by generate-rhcos-versions GitHub Action."
+          fi
+      - name: Open pull request
+        uses: peter-evans/create-pull-request@v4.0.3
+        with:
+          token: ${{ secrets.COREOSBOT_RELENG_TOKEN }}
+          branch: generate-rhcos-versions
+          push-to-fork: coreosbot-releng/coreos-layering-examples
+          base: rhcos
+          commit-message: "examples: generate rhcos versions"
+          title: "examples: generate rhcos versions"
+          body: "Created by generate-rhcos-versions [GitHub workflow](${{ github.server_url }}/${{ github.repository }}/actions/workflows/generate-rhcos-versions.yml) ([source](${{ github.server_url }}/${{ github.repository }}/blob/main/.github/workflows/generate-rhcos-versions.yml))."
+          committer: "CoreOS Bot <coreosbot@fedoraproject.org>"
+          author: "CoreOS Bot <coreosbot@fedoraproject.org>"
