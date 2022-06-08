@@ -15,9 +15,16 @@ for root, dirs, files in os.walk(basedir):
     for name in files:
         if not name.endswith("Dockerfile"):
             continue
-        print("Generating RHCOS version of:" + os.path.join(root, name))
         path = os.path.join(basedir, os.path.join(root, name))
         with open(path, "rt") as f:
-            content = f.read().replace(FCOS_IMAGE, RHCOS_IMAGE+'\n'+RHEL_REPOS)
-        with open(path, "wt") as f:
-            f.write(content)
+            contents = f.read()
+        replacement = RHCOS_IMAGE
+        if contents.find('rpm-ostree install') >= 0:
+            replacement = f"{replacement}\n{RHEL_REPOS}"
+        print("Generating RHCOS version of:" + os.path.join(root, name))
+        new_contents = contents.replace(FCOS_IMAGE, replacement)
+        if contents == new_contents:
+            print(f"No changes to {path}")
+        else:
+            with open(path, "wt") as f:
+                f.write(new_contents)
