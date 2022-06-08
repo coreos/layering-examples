@@ -13,10 +13,11 @@ FCOS_IMAGE = 'quay.io/coreos-assembler/fcos:testing-devel'
 basedir = os.path.normpath(os.path.join(os.path.dirname(sys.argv[0]), '..'))
 for root, dirs, files in os.walk(basedir):
     for name in files:
-        if name.endswith("Dockerfile"):
-             print("Generating RHCOS version of:" + os.path.join(root, name))
-             path = os.path.join(basedir, os.path.join(root, name))
-             with open(path, "rt") as f:
-                 content = f.read().replace(FCOS_IMAGE, RHCOS_IMAGE+'\n'+RHEL_REPOS)
-             with open(path, "wt") as f:
-                 f.write(content)
+        if not name.endswith("Dockerfile"):
+            continue
+        print("Generating RHCOS version of:" + os.path.join(root, name))
+        path = os.path.join(basedir, os.path.join(root, name))
+        with open(path, "rt") as f:
+            content = f.read().replace(FCOS_IMAGE, RHCOS_IMAGE+'\n'+RHEL_REPOS)
+        with open(path, "wt") as f:
+            f.write(content)
