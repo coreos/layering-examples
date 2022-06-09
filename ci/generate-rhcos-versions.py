@@ -21,7 +21,7 @@ for root, dirs, files in os.walk(basedir):
         replacement = RHCOS_IMAGE
         if 'rpm-ostree install' in contents:
             replacement = f"{replacement}\n{RHEL_REPOS}"
-        print("Generating RHCOS version of:" + os.path.join(root, name))
+        print("Generating RHCOS version of: " + os.path.join(root, name))
         new_contents = contents.replace(FCOS_IMAGE, replacement)
         if contents == new_contents:
             print(f"No changes to {path}")
