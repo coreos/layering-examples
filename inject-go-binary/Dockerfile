@@ -5,7 +5,7 @@ COPY . .
 RUN yum -y install go-toolset
 RUN go build hello-world.go
 
-FROM quay.io/coreos-assembler/fcos:next-devel
+FROM quay.io/coreos-assembler/fcos:testing-devel
 # Inject it into Fedora CoreOS
 COPY --from=builder /build/hello-world /usr/bin
 # And add our unit file
