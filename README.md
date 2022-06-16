@@ -18,6 +18,7 @@ functionality.
 - [selinux](selinux/): Demos changing a SELinux boolean
 - [inject-go-binary](inject-go-binary/): Demos adding building and injecting a Go binary + systemd unit
 - [tailscale](tailscale/): Demos https://tailscale.com/download/linux/fedora
+- [replace-systemd](replace-systemd/): Replacing a base package, in this case systemd
 
 ## Running an example
 
