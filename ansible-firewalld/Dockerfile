@@ -9,4 +9,6 @@ ADD configure-firewall-playbook.yml .
 # TODO: Need to also remove ansible-installed dependencies
 RUN rpm-ostree install firewalld ansible && \
     ansible-playbook -vvv configure-firewall-playbook.yml && \
-    rpm -e ansible
+    rpm -e ansible && \
+    rpm-ostree cleanup -m && \
+    ostree container commit
