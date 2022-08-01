@@ -2,12 +2,13 @@
 # However, this is intended to generalize to using Ansible as well as firewalld for generic tasks.
 FROM quay.io/coreos-assembler/fcos:testing-devel
 
-# Install firewalld and ansible
-RUN rpm-ostree install firewalld ansible
-
 ADD configure-firewall-playbook.yml .
 
-# Run playbook setting ports.
-RUN ansible-playbook -vvv configure-firewall-playbook.yml
-
-#TO-DO remove ansible when supported by rpm-ostree in container.
+# Install firewalld; also install ansible, use it to run a playbook, then remove it
+# so it doesn't take up space persistently.
+# TODO: Need to also remove ansible-installed dependencies
+RUN rpm-ostree install firewalld ansible && \
+    ansible-playbook -vvv configure-firewall-playbook.yml && \
+    rpm -e ansible && \
+    rpm-ostree cleanup -m && \
+    ostree container commit
