@@ -6,7 +6,7 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  tailscale:
     name: Build tailscale image
     runs-on: ubuntu-latest
 
@@ -18,3 +18,15 @@ jobs:
           image: fcos-tailscale
           context: tailscale/
           containerfiles: ./tailscale/Dockerfile
+  replace-kernel:
+    name: Build replace-kernel image
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Buildah Action
+        uses: redhat-actions/buildah-build@v2
+        with:
+          image: fcos-replace-kernel
+          context: replace-kernel/
+          containerfiles: ./replace-kernel/Dockerfile
