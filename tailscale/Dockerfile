@@ -3,6 +3,6 @@
 # `tailscale up` via some other mechanism.
 FROM quay.io/coreos-assembler/fcos:testing-devel
 RUN cd /etc/yum.repos.d/ && curl -LO https://pkgs.tailscale.com/stable/fedora/tailscale.repo && \
-    rpm-ostree install tailscale && rpm-ostree cleanup -m && \
+    rpm-ostree install tailscale && \
     systemctl enable tailscaled && \
     ostree container commit

@@ -10,5 +10,4 @@ ADD configure-firewall-playbook.yml .
 RUN rpm-ostree install firewalld ansible && \
     ansible-playbook configure-firewall-playbook.yml && \
     rpm -e ansible && \
-    rpm-ostree cleanup -m && \
     ostree container commit

@@ -6,5 +6,4 @@ RUN rpm-ostree cliwrap install-to-root /
 RUN rpm-ostree override replace https://kojipkgs.fedoraproject.org/packages/kernel/5.17.11/300.fc36/x86_64/kernel-modules-5.17.11-300.fc36.x86_64.rpm \
     https://kojipkgs.fedoraproject.org/packages/kernel/5.17.11/300.fc36/x86_64/kernel-core-5.17.11-300.fc36.x86_64.rpm \
     https://kojipkgs.fedoraproject.org/packages/kernel/5.17.11/300.fc36/x86_64/kernel-5.17.11-300.fc36.x86_64.rpm && \
-    rpm-ostree cleanup -m && \
     ostree container commit
