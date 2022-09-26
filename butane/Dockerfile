@@ -5,7 +5,7 @@ ADD demo.bu /demo.bu
 # Compile to ignition
 RUN butane --pretty --strict demo.bu > /demo.ign
 
-FROM quay.io/coreos-assembler/fcos:testing-devel
+FROM quay.io/fedora/fedora-coreos:stable
 # Copy our generated Ignition
 COPY --from=butane /demo.ign demo.ign
 # Now apply it to the live filesystem, and clean it up

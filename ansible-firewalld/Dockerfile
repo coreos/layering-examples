@@ -1,6 +1,6 @@
 # This example uses Ansible to configure firewalld to set up a node-local firewall suitable as recommended for use as an OpenShift 4 worker.
 # However, this is intended to generalize to using Ansible as well as firewalld for generic tasks.
-FROM quay.io/coreos-assembler/fcos:testing-devel
+FROM quay.io/fedora/fedora-coreos:stable
 
 ADD configure-firewall-playbook.yml .
 

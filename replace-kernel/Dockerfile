@@ -1,5 +1,5 @@
 # This example uses rpm-ostree's cliwrap to allow dracut to run on the container and generate an initramfs.
-FROM quay.io/coreos-assembler/fcos:testing-devel
+FROM quay.io/fedora/fedora-coreos:stable
 # Enable cliwrap.
 RUN rpm-ostree cliwrap install-to-root /
 # Replace the kernel, kernel-core and kernel-modules packages.
