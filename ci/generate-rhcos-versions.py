@@ -8,7 +8,7 @@ import yaml
 
 RHCOS_IMAGE = 'registry.ci.openshift.org/rhcos-devel/rhel-coreos:4.11'
 RHEL_REPOS = '#You will need the RHEL repos in a file.\nADD rhel.repo /etc/yum.repos.d'
-FCOS_IMAGE = 'quay.io/coreos-assembler/fcos:testing-devel'
+FCOS_IMAGE = 'quay.io/fedora/fedora-coreos:stable'
 
 basedir = os.path.normpath(os.path.join(os.path.dirname(sys.argv[0]), '..'))
 for root, dirs, files in os.walk(basedir):
