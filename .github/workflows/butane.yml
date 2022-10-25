@@ -1,0 +1,34 @@
+name: "Build image butane"
+
+env:
+  IMAGE_NAME: "butane"
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - butane/*
+      - .github/workflows/butane.yml
+  push:
+    branches:
+      - main
+    paths:
+      - butane/*
+      - .github/workflows/butane.yml
+
+jobs:
+  build-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Build container image
+        uses: redhat-actions/buildah-build@v2
+        with:
+          context: ${{ env.IMAGE_NAME }}
+          containerfiles: ${{ env.IMAGE_NAME }}/Containerfile
+          image: ${{ env.IMAGE_NAME }}
+          layers: false
+          oci: true
