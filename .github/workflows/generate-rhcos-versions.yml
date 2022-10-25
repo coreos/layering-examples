@@ -26,14 +26,10 @@ jobs:
                   -m "Triggered by generate-rhcos-versions GitHub Action."
           fi
       - name: Open pull request
-        uses: peter-evans/create-pull-request@v4.0.3
-        with:
-          token: ${{ secrets.COREOSBOT_RELENG_TOKEN }}
-          branch: generate-rhcos-versions
-          push-to-fork: coreosbot-releng/coreos-layering-examples
-          base: rhcos
-          commit-message: "examples: generate rhcos versions"
-          title: "examples: generate rhcos versions"
-          body: "Created by generate-rhcos-versions [GitHub workflow](${{ github.server_url }}/${{ github.repository }}/actions/workflows/generate-rhcos-versions.yml) ([source](${{ github.server_url }}/${{ github.repository }}/blob/main/.github/workflows/generate-rhcos-versions.yml))."
-          committer: "CoreOS Bot <coreosbot@fedoraproject.org>"
-          author: "CoreOS Bot <coreosbot@fedoraproject.org>"
+        run: |
+          if [[ ]]; then
+            return 0;
+          fi
+          gh pr create -B main -H generate-rhcos-versions --title 'examples: generate rhcos versions' --body 'Created by generate-rhcos-versions [GitHub workflow](${{ github.server_url }}/${{ github.repository }}/actions/workflows/generate-rhcos-versions.yml) ([source](${{ github.server_url }}/${{ github.repository }}/blob/main/.github/workflows/generate-rhcos-versions.yml)).'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
