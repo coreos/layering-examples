@@ -1,9 +1,8 @@
-# Change a SELinux boolean.  The first line is a workaround for a conflict
-# between overlayfs semantics and libselinux that is on track to being fixed, see
+# Change a SELinux boolean.  The FROM line is using the `next` tag
+# as workaround for a conflict between overlayfs semantics and 
+# libselinux. This issue is already fixed on the `next` CoreOS 
+# stream but has not reached the stable CoreOS stream.
 # https://github.com/SELinuxProject/selinux/pull/342
-FROM quay.io/fedora/fedora-coreos:stable
-# See above; temporary work around; this should be fixed in newer libselinux.  Note
-# that this `mv` incantation *must* be in the same RUN line (i.e. same layer) as
-# the policy changes.
-RUN mv /etc/selinux/targeted/active{,.tmp} && mv /etc/selinux/targeted/active{.tmp,} && \
-    setsebool -P -N container_manage_cgroup 1
+FROM quay.io/fedora/fedora-coreos:next
+
+RUN setsebool -P -N container_manage_cgroup 1
