@@ -1,0 +1,18 @@
+FROM quay.io/fedora/fedora-coreos:stable
+
+# Note: This needs to be updated to the next Fedora release manually. The repo
+# config itself is release agnotic but the link will be broken once the F36
+# buildroot is removed.
+ENV PODMAN_COPR="https://copr.fedorainfracloud.org/coprs/rhcontainerbot/podman-next/repo/fedora-36/rhcontainerbot-podman-next-fedora-36.repo"
+ENV REPO="copr:copr.fedorainfracloud.org:rhcontainerbot:podman-next"
+
+# - Fetch podman-next copr config
+# - Replace aardvark-dns, conmon, crun, netavark, podman, containers-common
+# - Remove moby-engine, containerd, runc
+#   Note that this requires squashing the image to get a size reduction.
+RUN curl -o /etc/yum.repos.d/podman-next.repo "$PODMAN_COPR" && \
+    rpm-ostree override replace --experimental --freeze --from repo="$REPO" \
+        aardvark-dns conmon crun netavark podman containers-common && \
+    rpm-ostree override remove moby-engine containerd runc && \
+    rpm-ostree cleanup -m && \
+    ostree container commit
