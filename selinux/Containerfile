@@ -1,8 +1,7 @@
-# Change a SELinux boolean.  The FROM line is using the `next` tag
-# as workaround for a conflict between overlayfs semantics and 
-# libselinux. This issue is already fixed on the `next` CoreOS 
-# stream but has not reached the stable CoreOS stream.
+# Change a SELinux boolean. A conflict between overlayfs semantics
+# and libselinux existed before fedora 37. This examples shows that
+# selinux booleans can now be changed correctly as part of the build.
 # https://github.com/SELinuxProject/selinux/pull/342
-FROM quay.io/fedora/fedora-coreos:next
+FROM quay.io/fedora/fedora-coreos:stable
 
 RUN setsebool -P -N container_manage_cgroup 1
