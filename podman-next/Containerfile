@@ -11,7 +11,7 @@ COPY rhcontainerbot-podman-next-fedora.gpg /etc/pki/rpm-gpg/
 # Note: Currently does not result in a size reduction for the container image
 RUN rpm-ostree override replace --experimental --freeze \
         --from repo="copr:copr.fedorainfracloud.org:rhcontainerbot:podman-next" \
-        aardvark-dns conmon crun netavark podman containers-common && \
+        aardvark-dns conmon crun netavark podman containers-common containers-common-extra && \
     rpm-ostree override remove moby-engine containerd runc && \
     rpm-ostree cleanup -m && \
     ostree container commit
