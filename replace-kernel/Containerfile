@@ -8,5 +8,5 @@ ADD dracut_call.sh dracut_call.sh
 RUN rpm-ostree override replace https://kojipkgs.fedoraproject.org//packages/kernel/6.0.10/300.fc37/x86_64/kernel-6.0.10-300.fc37.x86_64.rpm \
     https://kojipkgs.fedoraproject.org//packages/kernel/6.0.10/300.fc37/x86_64/kernel-core-6.0.10-300.fc37.x86_64.rpm \
     https://kojipkgs.fedoraproject.org//packages/kernel/6.0.10/300.fc37/x86_64/kernel-modules-6.0.10-300.fc37.x86_64.rpm && \
-    rpm-ostree cleanup -m && ./dracut_call.sh \
+    ./dracut_call.sh && \
     ostree container commit
