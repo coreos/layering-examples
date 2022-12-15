@@ -1,5 +1,7 @@
 FROM quay.io/fedora/fedora-coreos:stable
-RUN rpm-ostree override replace https://bodhi.fedoraproject.org/updates/FEDORA-2022-0bbb402870 && \
+RUN rpm-ostree override replace https://bodhi.fedoraproject.org/updates/FEDORA-2022-bb55f82158 && \
+    #workaround for: https://github.com/coreos/layering-examples/issues/49
+    rpm --reinstall https://kojipkgs.fedoraproject.org//packages/systemd/251.6/609.fc37/x86_64/systemd-251.6-609.fc37.x86_64.rpm && \
     #https://coreos.github.io/rpm-ostree/architecture-core/#content-in-var
     rm -rf /var/lock /var/mail /var/lib/ /var/log /var/run && \
     ostree container commit
