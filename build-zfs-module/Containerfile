@@ -33,5 +33,4 @@ COPY --from=builder /zfs/*.rpm /
 RUN rpm-ostree install /*.$(uname -p).rpm && \
     # we don't want any files on /var
     rm -rf /var/lib/pcp && \
-    rpm-ostree cleanup -m && \
     ostree container commit 

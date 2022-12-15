@@ -1,4 +1,5 @@
 FROM quay.io/fedora/fedora-coreos:stable
 RUN rpm-ostree override replace https://bodhi.fedoraproject.org/updates/FEDORA-2022-0bbb402870 && \
-    rpm-ostree cleanup -m && \
+    #https://coreos.github.io/rpm-ostree/architecture-core/#content-in-var
+    rm -rf /var/lock /var/mail /var/lib/ /var/log /var/run && \
     ostree container commit
