@@ -1,0 +1,18 @@
+# This replaces the (throughput) kernel with kernel-rt for latency-sensitive workloads.
+FROM quay.io/okd/centos-stream-coreos-9:4.12-x86_64
+# First, at the current time for replacing the kernel this invocation is required.
+# This need will be lifted in the future.
+RUN rpm-ostree cliwrap install-to-root /
+# Note a few things here.
+#  - The image does not have RT and NFV repositories enabled.  Right now rpm-ostree
+#    doesn't expose `dnf config-manager`, so we manually enable the yum repos with sed.
+#  - The default image has the meta-package "kernel" installed for the throughput kernel,
+#    but we don't install `kernel-rt` because that has dependencies on a lot of other
+#    things.
+#  - We need to do the swap as a single "transaction" to avoid broken dependencies.
+RUN sed -i "/\[rt\]/,/\[/  s/enabled=0/enabled=1/" /etc/yum.repos.d/centos-addons.repo && \
+    sed -i "/\[nfv\]/,/\[/  s/enabled=0/enabled=1/" /etc/yum.repos.d/centos-addons.repo && \
+    rpm-ostree override remove kernel kernel-{core,modules,modules-extra} \
+      --install kernel-rt-core --install kernel-rt-modules \
+      --install kernel-rt-modules-extra --install kernel-rt-kvm && \
+    ostree container commit
