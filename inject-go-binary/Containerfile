@@ -9,7 +9,8 @@ FROM quay.io/fedora/fedora-coreos:stable
 # Inject it into Fedora CoreOS
 COPY --from=builder /build/hello-world /usr/bin
 # And add our unit file
-ADD hello-world.service /etc/systemd/system/hello-world.service
+ADD hello-world.service /usr/lib/systemd/system/hello-world.service
+RUN ln -s ../hello-world.service /usr/lib/systemd/system/multi-user.target.wants
 # Also add strace; the `rm -rf /var/cache` is the equivalent of `yum clean all`.
 # For `ostree container commit`, see https://github.com/ostreedev/ostree-rs-ext/issues/159
 RUN rpm-ostree install strace && rm -rf /var/cache && \
