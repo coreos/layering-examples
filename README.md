@@ -1,10 +1,14 @@
 # Example containers that derive from (Fedora) CoreOS
 
-https://fedoraproject.org/wiki/Changes/OstreeNativeContainer
-and https://github.com/coreos/enhancements/blob/main/os/coreos-layering.md
+Fedora CoreOS is now also an OCI container image that can be used as a base
+image to create *bootable* derivative containers.
 
-are aiming to make it native to Fedora (and derivatives)
-to take a container build, but *boot* it and upgrade from it.
+See https://github.com/coreos/fedora-coreos-docs/pull/540 for more information about how to use this.
+
+Additional background links are:
+
+- https://fedoraproject.org/wiki/Changes/OstreeNativeContainer
+- https://github.com/coreos/enhancements/blob/main/os/coreos-layering.md
 
 This repository contains example containers to demonstrate
 functionality.
