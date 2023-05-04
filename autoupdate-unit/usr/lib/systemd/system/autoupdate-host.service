@@ -1,0 +1,8 @@
+[Unit]
+Description=Automatic host upgrades
+[Service]
+Type=simple
+# Note that this will be a no-op if there are no changes.
+ExecStart=rpm-ostree upgrade --reboot
+# We'll use https://github.com/coreos/rpm-ostree/pull/4384 in the future
+StandardOutput=null
