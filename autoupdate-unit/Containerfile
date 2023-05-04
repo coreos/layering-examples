@@ -1,0 +1,6 @@
+# This example injects a systemd unit to perform automatic daily OS updates.
+FROM quay.io/fedora/fedora-coreos:stable
+# The key content is in [usr/lib/systemd/system](usr/lib/systemd/system)
+ADD usr usr
+# At the current time, zincati cannot be used for container updates.  More in https://github.com/coreos/fedora-coreos-tracker/issues/1263
+RUN systemctl mask zincati

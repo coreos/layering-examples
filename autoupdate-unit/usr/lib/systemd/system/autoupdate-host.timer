@@ -1,0 +1,7 @@
+[Unit]
+Description=Automatic daily host upgrades
+[Timer]
+OnBootSec=1h
+OnUnitInactiveSec=1d
+[Install]
+WantedBy=timers.target
