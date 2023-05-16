@@ -1,6 +1,6 @@
 # Needs to be set to the Fedora version 
 # on CoreOS stable stream, as it is our base image.
-ARG BUILDER_VERSION=37
+ARG BUILDER_VERSION=38
 
 FROM quay.io/fedora/fedora-coreos:stable as kernel-query
 #We can't use the `uname -r` as it will pick up the host kernel version
