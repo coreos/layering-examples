@@ -30,7 +30,7 @@ FROM quay.io/fedora/fedora-coreos:stable
 COPY --from=builder /zfs/*.rpm /
 # For the example we install all RPMS (debug, test, etc).
 # In real use cases probably just want the module rpm.
-RUN rpm-ostree install /*.$(uname -p).rpm && \
+RUN rpm-ostree install /*.$(rpm -qa kernel --queryformat '%{ARCH}').rpm && \
     # we don't want any files on /var
     rm -rf /var/lib/pcp && \
     ostree container commit 
