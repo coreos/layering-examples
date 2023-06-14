@@ -18,6 +18,7 @@ functionality.
 - [ansible-firewalld](ansible-firewalld/): Demos using [Ansible](https://github.com/ansible/ansible) to configure [firewalld](https://github.com/firewalld/firewalld)
 - [build-zfs-module](build-zfs-module/): Build the ZFS third party module as rpm and install it
 - [butane](butane/): Demos using https://github.com/coreos/butane
+- [initramfs-module](initramfs-module/): Demos generating a initramfs with specific modules added and omitted.
 - [inject-go-binary](inject-go-binary/): Demos adding building and injecting a Go binary + systemd unit
 - [podman-next](podman-next): Use COPR to install the podman-next package
 - [rsyslog](rsyslog/): Install and configure rsyslog to forward to a remote host

@@ -1,0 +1,34 @@
+name: "Build image: initramfs-module"
+
+env:
+  IMAGE_NAME: "initramfs-module"
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - initramfs-module/*
+      - .github/workflows/initramfs-module.yml
+  push:
+    branches:
+      - main
+    paths:
+      - initramfs-module/*
+      - .github/workflows/initramfs-module.yml
+
+jobs:
+  build-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Build container image
+        uses: redhat-actions/buildah-build@v2
+        with:
+          context: ${{ env.IMAGE_NAME }}
+          containerfiles: ${{ env.IMAGE_NAME }}/Containerfile
+          image: ${{ env.IMAGE_NAME }}
+          layers: false
+          oci: true

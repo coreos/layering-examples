@@ -1,0 +1,17 @@
+# This examples rebuilds the initramfs adding ostree, iscsi, ifcfg modules
+# omiting the network-legacy and nouveau modules. After the initramfs is built it is moved to
+# /lib/modules/$KERNEL_VERSION/initramfs.img where it will be used on ostree systems.
+FROM quay.io/fedora/fedora-coreos:stable
+USER root
+RUN KERNEL_VERSION=$(rpm -q kernel | cut -c 8-); \
+    # In FCOS we add configuration files for dracut to ensure that the "base image" has its 
+    # initramfs arguments embedded. They can be seen on:
+    # https://github.com/coreos/fedora-coreos-config/tree/testing-devel/overlay.d/05core/usr/lib/dracut
+    # This makes sure that required arguments are reused when running dracut in a container build like this one.
+    # Other distributions like RHCOS might not provide/require the same arguments and will need to be added to the
+    # dracut invocation.
+    # The RCHOS arguments needed can be seen on:
+    # https://github.com/openshift/os/blob/1f2c0eb7e370d2412db15fa28556f419ddf73c5d/common.yaml#L37
+    dracut --reproducible -v --add 'ostree' -f --omit-drivers 'nouveau' \
+    --add 'iscsi' --add 'ifcfg' --omit 'network-legacy' /lib/modules/$KERNEL_VERSION/initramfs.img $KERNEL_VERSION && \
+    ostree container commit
