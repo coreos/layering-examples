@@ -1,0 +1,10 @@
+
+variant: fcos
+version: 1.0.0
+passwd:
+  users:
+  - name: core
+    ssh_authorized_keys:
+    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC7L9EJ4LZPyY0Q1/nRCDiKffTZLHeo0S5cm4OtONa1PDlMWHtFtAZLiQcUjOIOIpslSJsEPoG2vmx30AEfYdE8jLw/yTRiPsiUkq2keNW9KjtpZkp0gpVEaVosyqp2+ZnXxVTzLNh4wmCuy5UDX2KnxSQAZcnW6Y4Ckkzwcr9RXvzRDmGNhhMGUPemmIEMC8yUuRrsp9dHpDnE7oxj5H7Fl2m/55MvFFTv9ef5uuheb7fqfRHyHVfhuwMoQBTTGcAlxEi6ecMlch+FIygVq/ZaJZECxb2IprmoSPi5Vj8Od+pgp6LWqW+WVazGkB4iBprXlmocSPuIdA4jdrHzSAy7GwBiYhg3QPhmEj90lncKLhNmdz74NHX76ohgjES7z1LbpHzA/FVHsmgSesEB3g+2NegPXtRpX79S6LocS8IxhFvdkenn3KTAqO6CyEuW7KoBhtkoJOe7BR/evOSFPm8XngBS0YVN3/mSeV67Ym9RK8UnMgxoQg8dQbUQWarh9QE= root@ybettan-testing.edgeinfra.cloud
+
+

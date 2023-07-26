@@ -27,6 +27,7 @@ functionality.
 - [selinux](selinux/): Demos changing a SELinux boolean
 - [tailscale](tailscale/): Demos https://tailscale.com/download/linux/fedora
 - [wifi](wifi/): Install support for wireless networks along with pre-baked configuration to join a network
+- [loading-kernel-module](loading-kernel-module/): Demo loading a kernel module to the worker nodes
 
 ## Running an example
 

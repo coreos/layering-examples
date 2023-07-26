@@ -1,0 +1,36 @@
+FROM fedora:38 as builder
+ARG KERNEL_VERSION
+
+RUN dnf install -y \
+    git \
+    make
+
+WORKDIR /home
+
+# Get the kernel-headers
+RUN KERNEL_XYZ=$(echo ${KERNEL_VERSION} | cut -d"-" -f1) && \
+    KERNEL_DISTRO=$(echo ${KERNEL_VERSION} | cut -d"-" -f2 | cut -d"." -f-2) && \
+    KERNEL_ARCH=$(echo ${KERNEL_VERSION} | cut -d"-" -f2 | cut -d"." -f3) && \
+    dnf install -y \
+    https://kojipkgs.fedoraproject.org//packages/kernel/${KERNEL_XYZ}/${KERNEL_DISTRO}/${KERNEL_ARCH}/kernel-${KERNEL_VERSION}.rpm \
+    https://kojipkgs.fedoraproject.org//packages/kernel/${KERNEL_XYZ}/${KERNEL_DISTRO}/${KERNEL_ARCH}/kernel-core-${KERNEL_VERSION}.rpm \
+    https://kojipkgs.fedoraproject.org//packages/kernel/${KERNEL_XYZ}/${KERNEL_DISTRO}/${KERNEL_ARCH}/kernel-modules-${KERNEL_VERSION}.rpm \
+    https://kojipkgs.fedoraproject.org//packages/kernel/${KERNEL_XYZ}/${KERNEL_DISTRO}/${KERNEL_ARCH}/kernel-modules-core-${KERNEL_VERSION}.rpm \
+    https://kojipkgs.fedoraproject.org//packages/kernel/${KERNEL_XYZ}/${KERNEL_DISTRO}/x86_64/kernel-devel-${KERNEL_VERSION}.rpm
+
+RUN git clone https://github.com/kubernetes-sigs/kernel-module-management
+
+WORKDIR /home/kernel-module-management/ci/kmm-kmod
+
+RUN KERNEL_SRC_DIR=/lib/modules/${KERNEL_VERSION}/build make all
+
+FROM quay.io/fedora/fedora-coreos:stable
+ARG KERNEL_VERSION
+
+COPY --from=builder /home/kernel-module-management/ci/kmm-kmod/kmm_ci_a.ko /usr/lib/modules/${KERNEL_VERSION}/
+
+# This is needed in order to autoload the module at boot time.
+RUN depmod -a "${KERNEL_VERSION}" && echo kmm_ci_a > /etc/modules-load.d/kmm_ci_a.conf
+
+RUN rpm-ostree install strace && rm -rf /var/cache && \
+  ostree container commit
