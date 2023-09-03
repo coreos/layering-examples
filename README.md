@@ -21,6 +21,7 @@ functionality.
 - [convert-ubuntu-package](convert-ubuntu-package/): Convert an Ubuntu package to rpm using [alien](https://wiki.debian.org/Alien) and install it.
 - [initramfs-module](initramfs-module/): Demos generating a initramfs with specific modules added and omitted.
 - [inject-go-binary](inject-go-binary/): Demos adding building and injecting a Go binary + systemd unit
+- [install-zfs-dkms-module](install-zfs-dkms-module/): Install ZFS DKMS Kernel Module
 - [podman-next](podman-next): Use COPR to install the podman-next package
 - [rsyslog](rsyslog/): Install and configure rsyslog to forward to a remote host
 - [replace-kernel](replace-kernel): Replace the kernel using packages from Koji
