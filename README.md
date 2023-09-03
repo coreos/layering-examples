@@ -18,6 +18,7 @@ functionality.
 - [ansible-firewalld](ansible-firewalld/): Demos using [Ansible](https://github.com/ansible/ansible) to configure [firewalld](https://github.com/firewalld/firewalld)
 - [build-zfs-module](build-zfs-module/): Build the ZFS third party module as rpm and install it
 - [butane](butane/): Demos using https://github.com/coreos/butane
+- [convert-ubuntu-package](convert-ubuntu-package/): Convert an Ubuntu package to rpm using [alien](https://wiki.debian.org/Alien) and install it.
 - [initramfs-module](initramfs-module/): Demos generating a initramfs with specific modules added and omitted.
 - [inject-go-binary](inject-go-binary/): Demos adding building and injecting a Go binary + systemd unit
 - [podman-next](podman-next): Use COPR to install the podman-next package
