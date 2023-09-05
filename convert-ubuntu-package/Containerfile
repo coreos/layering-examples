@@ -1,0 +1,13 @@
+# Convert an Ubuntu package to rpm using alien and install it
+FROM ubuntu:latest as converter
+RUN apt update && \
+    apt install -y alien && \
+    cd /tmp && \
+    apt download gocryptfs && \
+    alien --to-rpm --scripts --fixperms gocryptfs*.deb
+
+FROM quay.io/fedora/fedora-coreos:stable
+COPY --from=converter /tmp/gocryptfs*.rpm /tmp
+RUN rpm-ostree install /tmp/gocryptfs*.rpm && \
+    rm /tmp/gocryptfs*.rpm && \
+    ostree container commit
