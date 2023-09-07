@@ -1,0 +1,13 @@
+[Unit]
+Description=Service to Echo Here During initrd Startup
+DefaultDependencies=no
+ConditionVirtualization=!container
+
+Requires=systemd-udev-settle.service
+After=systemd-udev-settle.service
+Before=cryptsetup.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/echo --------------------HERE--------------------
+
