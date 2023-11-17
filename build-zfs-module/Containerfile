@@ -31,6 +31,7 @@ COPY --from=builder /zfs/*.rpm /
 # For the example we install all RPMS (debug, test, etc).
 # In real use cases probably just want the module rpm.
 RUN rpm-ostree install /*.$(rpm -qa kernel --queryformat '%{ARCH}').rpm && \
+    depmod -a `rpm -qa kernel --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}'` && \
     # we don't want any files on /var
     rm -rf /var/lib/pcp && \
     ostree container commit 
