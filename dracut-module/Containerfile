@@ -1,0 +1,26 @@
+# Install and run a dracut module
+FROM quay.io/fedora/fedora-coreos:stable
+
+# Install dracut module requirements
+RUN rpm-ostree install busybox rng-tools pcsc-tools bluez && \
+    ostree container commit
+
+# Add dracut module files
+COPY files/ /usr/lib/dracut/modules.d/10systemd-echo-here/
+
+# Run dracut to build a new initrd
+RUN export KERNEL_VERSION="$(rpm -qa kernel --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}')" && \
+    stock_arguments=$(lsinitrd "/lib/modules/${KERNEL_VERSION}/initramfs.img"  | grep '^Arguments: ' | sed 's/^Arguments: //') && \
+    mkdir -p /tmp/dracut /var/roothome && \
+    bash <(/usr/bin/echo "dracut $stock_arguments") && \
+    rm -rf /var/* /tmp/*  && \
+    ostree container commit
+
+# Move the new initrd into place while keeping the stock initrd in the image for reference.
+RUN export KERNEL_VERSION="$(rpm -qa kernel --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}')" && \
+    mv -v "/lib/modules/${KERNEL_VERSION}/initramfs.img" "/lib/modules/${KERNEL_VERSION}/initramfs.stock.img" && \
+    mv -v /boot/initramfs*.img "/lib/modules/${KERNEL_VERSION}/initramfs.img" && \
+    ostree container commit
+
+# Show that the initrd includes the echo-here service:
+RUN lsinitrd /lib/modules/*/initramfs.img | grep echo-here
