@@ -1,0 +1,10 @@
+[copr:copr.fedorainfracloud.org:nexodus:nexodus]
+name=Copr repo for nexodus owned by nexodus
+baseurl=https://download.copr.fedorainfracloud.org/results/nexodus/nexodus/fedora-$releasever-$basearch/
+type=rpm-md
+skip_if_unavailable=True
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/copr-nexodus-pubkey.gpg
+repo_gpgcheck=0
+enabled=1
+enabled_metadata=1

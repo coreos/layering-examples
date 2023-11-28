@@ -1,0 +1,9 @@
+# As per https://docs.nexodus.io/quickstart/
+# You will need to `sudo nexctl nexd status` and follow
+# the instructions to register the device.
+FROM quay.io/fedora/fedora-coreos:stable
+COPY copr-nexodus-fedora.repo /etc/yum.repos.d/
+COPY copr-nexodus-pubkey.gpg /etc/pki/rpm-gpg/
+RUN rpm-ostree install nexodus && \
+    systemctl enable nexodus && \
+    ostree container commit
