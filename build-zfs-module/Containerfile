@@ -1,6 +1,7 @@
-# Needs to be set to the Fedora version 
-# on CoreOS stable stream, as it is our base image.
-ARG BUILDER_VERSION=38
+# Needs to be set to the Fedora version on CoreOS stable stream, as it is our base image.
+# In a script, you can set this using:
+#   BUILDER_VERSION=$(curl -s "https://builds.coreos.fedoraproject.org/streams/stable.json" | jq -r '.architectures.x86_64.artifacts.metal.release' | cut -d '.' -f 1)
+ARG BUILDER_VERSION=39
 
 FROM quay.io/fedora/fedora-coreos:stable as kernel-query
 #We can't use the `uname -r` as it will pick up the host kernel version
@@ -27,10 +28,13 @@ RUN ./configure -with-linux=/usr/src/kernels/$(cat /kernel-version.txt)/ -with-l
     && make -j1 rpm-utils rpm-kmod
 
 FROM quay.io/fedora/fedora-coreos:stable
-COPY --from=builder /zfs/*.rpm /
-# For the example we install all RPMS (debug, test, etc).
-# In real use cases probably just want the module rpm.
-RUN rpm-ostree install /*.$(rpm -qa kernel --queryformat '%{ARCH}').rpm && \
+COPY --from=builder /zfs/*.rpm /zfs/
+RUN rm /zfs/*devel*.rpm /zfs/zfs-test*.rpm && \
+    rpm-ostree install \
+      /zfs/*.$(rpm -qa kernel --queryformat '%{ARCH}').rpm && \
+    # Auto-load ZFS module
+    depmod -a "$(rpm -qa kernel --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}')" && \
+    echo "zfs" > /etc/modules-load.d/zfs.conf && \
     # we don't want any files on /var
     rm -rf /var/lib/pcp && \
     ostree container commit 
