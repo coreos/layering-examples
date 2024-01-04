@@ -1,0 +1,23 @@
+# Install ZFS DKMS Kernel Module
+FROM quay.io/fedora/fedora-coreos:stable
+
+# Install ZFS repository
+RUN rpm-ostree install \
+    https://zfsonlinux.org/fedora/zfs-release-2-3$(rpm --eval "%{dist}").noarch.rpm && \
+    ostree container commit
+
+# Install dkms dependencies
+RUN rpm-ostree install kernel-devel kernel-devel-matched kernel-headers kernel-srpm-macros && \
+    ostree container commit
+
+# TODO: Remove the following line once these bugs are fixed:
+# - https://github.com/coreos/rpm-ostree/issues/4201
+# - https://github.com/coreos/rpm-ostree/issues/1614
+RUN test -f /usr/bin/ld || ln -s /usr/bin/ld.bfd /usr/bin/ld
+
+# Install zfs package and tell dkms to install the kernel module now
+RUN rpm-ostree install zfs && \
+    dkms autoinstall -k $(rpm -qa kernel --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}') && \
+    rm -vrf /var && \
+    test -h /usr/bin/ld && rm -v /usr/bin/ld && \
+    ostree container commit
